@@ -1,8 +1,22 @@
-<script setup></script>
+<script setup>
+import axios from "axios";
+
+const getData = async () => {
+  const response = await axios.get("https://v2.jokeapi.dev/joke/Any");
+  console.log(response);
+  const data = response.data;
+  console.log(data);
+};
+
+getData();
+</script>
 
 <template>
   <main>
-    <div class="container text-3xl text-cyan-500">Hello World!</div>
-    <p class="p-2 pt-2"></p>
+    <input type="text" />
+    <input type="text" />
+    <input type="text" />
+    <input type="text" />
+    <input type="text" />
   </main>
 </template>
