@@ -3,9 +3,15 @@ import { ref, computed, watch } from "vue";
 import axios from "axios";
 
 const selectedOption = ref("Any");
+const selectedLanguage = ref("");
+const selectedParts = ref({
+  single: "",
+  twopart: "",
+});
+console.log(selectedParts.value);
 
 const apiUrl = computed(() => {
-  return `https://v2.jokeapi.dev/joke/${selectedOption.value}`;
+  return `https://v2.jokeapi.dev/joke/${selectedOption.value}?lang=${selectedLanguage.value}&type=${selectedParts.value}`;
 });
 
 watch(selectedOption, (newValue) => {
@@ -28,8 +34,9 @@ const getData = async () => {
 <template>
   <form
     class="flex h-screen items-center justify-center bg-yellow-400"
-    @submit.prevent="sendEmail"
+    @submit.prevent="getData"
   >
+    <!-- CATEGORY -->
     <div class="rounded-lg border border-black p-12">
       <div class="mb-4 w-full">
         <span>Select Category:</span>
@@ -42,17 +49,6 @@ const getData = async () => {
             v-model="selectedOption"
           />
           <label for="Any" class="mr-8">Any</label>
-
-          <!-- <input
-            type="radio"
-            id="Custom"
-            name="category"
-            value="Custom"
-            v-model="selectedOption"
-            @input="custom = true"
-            :checked="selectedOption === 'Custom'"
-          />
-          <label for="Custom">Custom</label> -->
 
           <input
             type="radio"
@@ -116,27 +112,42 @@ const getData = async () => {
         </div>
       </div>
 
+      <!-- LANGUAGE  -->
       <div class="mb-4">
-        <span>Select Language:</span>
+        <span>Select Language:{{ selectedLanguage }}</span>
         <div class="mt-2 rounded-lg border-2 border-black p-2">
-          <select id="cars" name="cars" class="w-full bg-transparent">
-            <option>English</option>
-            <option>Spanish</option>
-            <option>German</option>
-            <option>Portuguese</option>
-            <option>Czech</option>
-            <option>French</option>
+          <select
+            id="cars"
+            name="cars"
+            class="w-full bg-transparent"
+            v-model="selectedLanguage"
+          >
+            <option value="">English</option>
+            <option value="es">Spanish</option>
+            <option value="de">German</option>
+            <option value="pt">Portuguese</option>
+            <option value="cs">Czech</option>
+            <option value="fr">French</option>
           </select>
         </div>
       </div>
 
+      <!-- SINGLE / TWOPARTS -->
       <div class="mb-4 w-full">
-        <span>Select at least one joke type:</span>
+        <span>Select at least one joke type: {{ selectedParts }}</span>
         <div class="mt-2 rounded-lg border-2 border-black p-2">
-          <input type="checkbox" class="mr-[2px]" />
+          <input
+            type="checkbox"
+            class="mr-[2px]"
+            v-model="selectedParts.single"
+          />
           <label class="mr-8">Single</label>
 
-          <input type="checkbox" class="mr-[2px]" />
+          <input
+            type="checkbox"
+            class="mr-[2px]"
+            v-model="selectedParts.twopart"
+          />
           <label>Two-part</label>
         </div>
       </div>
