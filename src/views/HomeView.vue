@@ -1,6 +1,7 @@
 <script setup>
 import { ref, computed, watch, onMounted } from "vue";
 import axios from "axios";
+import Navigation from "../components/Navigation.vue";
 
 const selectedOption = ref("Any");
 const selectedLanguage = ref("");
@@ -27,11 +28,9 @@ const getData = async () => {
     const response = await axios.get(apiUrl.value);
     const data = response.data;
     joke.value = data;
-    // console.log(data);
   } catch (error) {
     console.error("Error fetching data:", error);
   }
-  // console.log(apiUrl.value);
 };
 
 watch([singlePartSelected, twoPartSelected], () => {
@@ -52,16 +51,13 @@ onMounted(() => {
 </script>
 
 <template>
-  <main class="grid grid-cols-2 items-center gap-12 px-24">
-    <form
-      class="flex h-screen items-center justify-center"
-      @submit.prevent="getData"
-    >
+  <main class="grid grid-cols-2 items-center gap-12 px-24 pt-24">
+    <form class="flex items-center justify-center" @submit.prevent="getData">
       <!-- CATEGORY -->
       <div class="rounded-lg border border-black p-12">
         <div class="mb-4 w-full">
           <span>Select Category:</span>
-          <div class="mt-2 rounded-lg border-2 border-black p-2">
+          <div class="balance mt-2 rounded-lg border-2 border-black p-2">
             <input
               type="radio"
               id="Any"
@@ -69,7 +65,7 @@ onMounted(() => {
               value="Any"
               v-model="selectedOption"
             />
-            <label for="Any" class="mr-8">Any</label>
+            <label for="Any" class="mr-2">Any</label>
 
             <input
               type="radio"
@@ -79,7 +75,7 @@ onMounted(() => {
               v-model="selectedOption"
               class="mr-[2px]"
             />
-            <label class="mr-4">Programming</label>
+            <label class="mr-2">Programming</label>
 
             <input
               type="radio"
@@ -89,7 +85,7 @@ onMounted(() => {
               v-model="selectedOption"
               class="mr-[2px]"
             />
-            <label class="mr-4">Misc</label>
+            <label class="mr-2">Misc</label>
 
             <input
               type="radio"
@@ -99,7 +95,7 @@ onMounted(() => {
               v-model="selectedOption"
               class="mr-[2px]"
             />
-            <label class="mr-4">Dark</label>
+            <label class="mr-2">Dark</label>
 
             <input
               type="radio"
@@ -109,7 +105,7 @@ onMounted(() => {
               v-model="selectedOption"
               class="mr-[2px]"
             />
-            <label class="mr-4">Pun</label>
+            <label class="mr-2">Pun</label>
 
             <input
               type="radio"
@@ -119,7 +115,7 @@ onMounted(() => {
               v-model="selectedOption"
               class="mr-[2px]"
             />
-            <label class="mr-4">Spooky</label>
+            <label class="mr-2">Spooky</label>
 
             <input
               type="radio"
@@ -174,6 +170,7 @@ onMounted(() => {
           <div class="mt-2 rounded-lg border-2 border-black p-2">
             <input
               type="number"
+              min="1"
               v-model="numberOfJokes"
               class="w-full bg-transparent focus:outline-none"
             />
@@ -190,9 +187,17 @@ onMounted(() => {
 
     <div class="w-full rounded-lg border border-black p-12">
       <div v-if="joke.jokes" v-for="jokes in joke.jokes">
-        <h1 class="mb-2 mt-6 text-center text-3xl font-bold">
-          {{ jokes.category }} Joke
-        </h1>
+        <div>
+          <h1
+            class="mb-2 mt-6 text-center text-3xl font-bold"
+            v-if="!jokes.error"
+          >
+            {{ jokes.category }} Joke
+          </h1>
+          <h1 v-else class="mb-2 mt-6 text-center text-3xl font-bold">
+            {{ jokes.message }}
+          </h1>
+        </div>
         <span v-if="jokes.type === 'single'" class="text-xl">{{
           jokes.joke
         }}</span>
@@ -204,9 +209,17 @@ onMounted(() => {
       </div>
 
       <div v-else>
-        <h1 class="my-4 text-center text-3xl font-bold">
-          {{ joke.category }} Joke
-        </h1>
+        <div>
+          <h1
+            class="mb-2 mt-6 text-center text-3xl font-bold"
+            v-if="!joke.error"
+          >
+            {{ joke.category }} Joke
+          </h1>
+          <h1 v-else class="mb-2 mt-6 text-center text-3xl font-bold">
+            {{ joke.message }}
+          </h1>
+        </div>
         <span v-if="joke.type === 'single'" class="text-xl">{{
           joke.joke
         }}</span>
