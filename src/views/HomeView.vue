@@ -1,5 +1,5 @@
 <script setup>
-import { ref, computed, watch } from "vue";
+import { ref, computed, watch, onMounted } from "vue";
 import axios from "axios";
 
 const selectedOption = ref("Any");
@@ -45,10 +45,14 @@ watch([singlePartSelected, twoPartSelected], () => {
     selectedParts.value = ""; // None selected
   }
 });
+
+onMounted(() => {
+  getData(); // Call getData() when the component is mounted (page load or refresh)
+});
 </script>
 
 <template>
-  <main class="grid grid-cols-2 items-center gap-12 bg-yellow-400 px-24">
+  <main class="grid grid-cols-2 items-center gap-12 px-24">
     <form
       class="flex h-screen items-center justify-center"
       @submit.prevent="getData"
@@ -177,7 +181,6 @@ watch([singlePartSelected, twoPartSelected], () => {
         </div>
 
         <button
-          @click="getData()"
           class="mt-4 w-full bg-black py-4 text-2xl text-white transition-colors hover:bg-yellow-400 hover:text-black hover:shadow-2xl"
         >
           Generate Joke!
@@ -186,14 +189,32 @@ watch([singlePartSelected, twoPartSelected], () => {
     </form>
 
     <div class="w-full rounded-lg border border-black p-12">
-      <h1 class="mb-2 text-center text-3xl font-bold">
-        {{ joke.category }} Joke
-      </h1>
-      <span v-if="joke.type === 'single'" class="text-xl">{{ joke.joke }}</span>
+      <div v-if="joke.jokes" v-for="jokes in joke.jokes">
+        <h1 class="mb-2 mt-6 text-center text-3xl font-bold">
+          {{ jokes.category }} Joke
+        </h1>
+        <span v-if="jokes.type === 'single'" class="text-xl">{{
+          jokes.joke
+        }}</span>
+        <div v-else>
+          <span class="text-xl">&ndash; {{ jokes.setup }}</span>
+          <br />
+          <span class="text-xl">&ndash; {{ jokes.delivery }}</span>
+        </div>
+      </div>
+
       <div v-else>
-        <span class="text-xl">&ndash; {{ joke.setup }}</span>
-        <br />
-        <span class="text-xl">&ndash; {{ joke.delivery }}</span>
+        <h1 class="my-4 text-center text-3xl font-bold">
+          {{ joke.category }} Joke
+        </h1>
+        <span v-if="joke.type === 'single'" class="text-xl">{{
+          joke.joke
+        }}</span>
+        <div v-else>
+          <span class="text-xl">&ndash; {{ joke.setup }}</span>
+          <br />
+          <span class="text-xl">&ndash; {{ joke.delivery }}</span>
+        </div>
       </div>
     </div>
   </main>
