@@ -15,31 +15,60 @@
         </button>
       </div>
 
-      <div v-for="info in data" class="py-8">
+      <div
+        v-if="data"
+        v-for="(singleCountry, index) in data"
+        :key="index"
+        class="py-8"
+      >
         <div class="flex justify-center">
-          <img :src="info.flags.png" />
+          <img :src="singleCountry.flags.png" class="shadow-2xl" />
         </div>
         <h1
           class="mt-8 text-center text-xl font-bold uppercase tracking-widest"
         >
-          {{ info.name.official }}
+          {{ singleCountry.name.official }}
         </h1>
 
         <div class="mt-8">
-          <ul class="">
+          <ul class="flex flex-col gap-2">
             <li class="font-bold">
-              Capital: <span class="opacity-70">{{ info.capital[0] }}</span>
+              Capital:
+              <span class="opacity-70" v-if="singleCountry.capital">{{
+                singleCountry.capital.join(", ")
+              }}</span>
+              <span v-else>N/A</span>
             </li>
             <li class="font-bold">
-              Population: <span class="opacity-70">{{ info.population }}</span>
+              Population:
+              <span class="opacity-70">{{ singleCountry.population }}</span>
             </li>
             <li class="font-bold">
               Currency:
-              <span class="opacity-70">{{ info.currencies }}</span>
+              <span class="opacity-70">
+                {{ Object.keys(singleCountry.currencies).join(", ") }}
+              </span>
+              &ndash;
+              <span class="opacity-70">
+                {{
+                  singleCountry.currencies[
+                    Object.keys(singleCountry.currencies)
+                  ].name
+                }}
+              </span>
             </li>
             <li class="font-bold">
               Common Languages:
-              <!-- <span class="opacity-70">{{ info.capital[0] }}</span> -->
+              <span class="opacity-70">{{
+                Object.values(singleCountry.languages).join(", ")
+              }}</span>
+            </li>
+            <li class="font-bold">
+              Neighbors:
+              <span class="opacity-70" v-if="singleCountry.borders">{{
+                singleCountry.borders.join(", ")
+              }}</span>
+              <span class="opacity-70" v-else>None</span>
             </li>
           </ul>
         </div>
@@ -53,7 +82,8 @@ import { ref, computed } from "vue";
 import axios from "axios";
 
 const data = ref(null);
-const input = ref("");
+
+const input = ref("Georgia");
 
 const capitalizedInput = computed(() => {
   // Capitalize the first letter of the input
@@ -65,7 +95,10 @@ const getCountry = async () => {
     const response = await axios.get(
       `https://restcountries.com/v3.1/name/${capitalizedInput.value}`,
     );
-    data.value = response.data;
+
+    const countryData = response.data;
+
+    data.value = countryData;
     console.log(data.value);
   } catch (error) {
     console.error(error);
