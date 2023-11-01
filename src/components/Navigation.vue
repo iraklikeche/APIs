@@ -12,18 +12,13 @@
         >Countries</RouterLink
       >
       <RouterLink
-        to="/countries"
-        class="transition-transition-all duration-500 hover:scale-110 hover:text-white"
-        >Countries</RouterLink
+        :to="{ name: 'facts' }"
+        class="transition-all duration-500 hover:scale-110 hover:text-white"
+        >Facts</RouterLink
       >
       <RouterLink
-        to="/countries"
-        class="transition-transition-all duration-500 hover:scale-110 hover:text-white"
-        >Countries</RouterLink
-      >
-      <RouterLink
-        to="/countries"
-        class="transition-transition-all duration-500 hover:scale-110 hover:text-white"
+        :to="{ name: 'countries' }"
+        class="transition-all duration-500 hover:scale-110 hover:text-white"
         >Countries</RouterLink
       >
     </nav>

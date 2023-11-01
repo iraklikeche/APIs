@@ -1,7 +1,6 @@
 <script setup>
 import { ref, computed, watch, onMounted } from "vue";
 import axios from "axios";
-import Navigation from "../components/Navigation.vue";
 
 const selectedOption = ref("Any");
 const selectedLanguage = ref("");
@@ -17,10 +16,6 @@ const apiUrl = computed(() => {
 
 watch(selectedOption, (newValue) => {
   console.log("Selected option:", newValue);
-});
-
-watch(joke, (newValue) => {
-  console.log(joke.value);
 });
 
 const getData = async () => {
