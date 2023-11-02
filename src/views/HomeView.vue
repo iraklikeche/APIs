@@ -67,25 +67,23 @@ onMounted(() => {
 </script>
 
 <template>
-  <main class="grid grid-cols-2 items-center gap-12 px-24 pt-24">
-    <form class="flex items-center justify-center" @submit.prevent="getData">
+  <main class="grid grid-cols-1 items-center gap-12 px-24 pt-24 lg:grid-cols-2">
+    <form @submit.prevent="getData">
       <!-- CATEGORY -->
       <div class="rounded-lg border border-black p-12">
         <div class="mb-4 w-full">
           <span>Select Category:</span>
           <div class="mt-2 flex rounded-lg border-2 border-black p-2">
-            <div v-for="category in categories" :key="category.value">
-              <input
-                type="radio"
-                :id="category.value"
-                name="category"
-                :value="category.value"
-                v-model="selectedOption"
-              />
-              <label :for="category.value" class="mr-2">{{
-                category.label
-              }}</label>
-            </div>
+            <select
+              id="category"
+              name="category"
+              v-model="selectedOption"
+              class="w-full bg-transparent focus:outline-none"
+            >
+              <option v-for="category in categories" :key="category.value">
+                {{ category.label }}
+              </option>
+            </select>
           </div>
 
           <!-- LANGUAGE  -->
@@ -95,7 +93,7 @@ onMounted(() => {
               <select
                 id="language"
                 name="languages"
-                class="w-full bg-transparent"
+                class="w-full bg-transparent focus:outline-none"
                 v-model="selectedLanguage"
               >
                 <option
@@ -150,12 +148,12 @@ onMounted(() => {
       <div v-if="joke.jokes" v-for="jokes in joke.jokes">
         <div>
           <h1
-            class="mb-2 mt-6 text-center text-3xl font-bold"
+            class="mb-8 mt-6 text-center text-3xl font-bold"
             v-if="!jokes.error"
           >
             {{ jokes.category }} Joke
           </h1>
-          <h1 v-else class="mb-2 mt-6 text-center text-3xl font-bold">
+          <h1 v-else class="mb-8 mt-6 text-center text-3xl font-bold">
             {{ jokes.message }}
           </h1>
         </div>
@@ -172,12 +170,12 @@ onMounted(() => {
       <div v-else>
         <div>
           <h1
-            class="mb-2 mt-6 text-center text-3xl font-bold"
+            class="mb-8 mt-6 text-center text-3xl font-bold"
             v-if="!joke.error"
           >
             {{ joke.category }} Joke
           </h1>
-          <h1 v-else class="mb-2 mt-6 text-center text-3xl font-bold">
+          <h1 v-else class="mb-8 mt-6 text-center text-3xl font-bold">
             {{ joke.message }}
           </h1>
         </div>

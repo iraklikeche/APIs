@@ -1,6 +1,6 @@
 <template>
   <main class="flex items-center justify-center px-24 py-24">
-    <div class="flex w-1/2 flex-col rounded-xl bg-white px-10 py-12">
+    <div class="flex w-1/2 min-w-max flex-col rounded-xl bg-white px-10 py-12">
       <div class="flex items-center justify-center gap-8">
         <input
           placeholder="Type a Country"

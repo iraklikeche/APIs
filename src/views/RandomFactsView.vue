@@ -105,6 +105,5 @@ const getFact = () => {
 const getRandomFact = () => {
   const url = "http://numbersapi.com/random";
   fetchData(url);
-  // showFact.value = true
 };
 </script>
