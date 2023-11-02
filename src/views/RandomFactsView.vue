@@ -46,8 +46,17 @@
         Get Random Fact
       </button>
 
-      <div class="mt-4 w-fit">
-        <p>{{ data }}</p>
+      <div class="mt-8 max-w-lg" v-if="showFact">
+        <div
+          class="rounded-md border-b-8 border-yellow-400 px-8 py-10 shadow-2xl"
+        >
+          <h2 class="mb-4 text-4xl font-bold">{{ fact }}</h2>
+          <p class="text-xl">{{ data }}</p>
+          <p v-if="isEmpty" class="text-xl text-red-600">
+            The input field cannot be empty. <br />
+            Please choose the category.
+          </p>
+        </div>
       </div>
     </div>
   </main>
@@ -60,32 +69,42 @@ import axios from "axios";
 const data = ref(null);
 const fact = ref(null);
 const selectedOption = ref(null);
+const showFact = ref(false);
+const isEmpty = ref(false);
 
 watch(selectedOption, (newValue) => {
   console.log("Selected option:", newValue);
 });
 
-const getFact = async () => {
+const fetchData = async (url) => {
   try {
-    const response = await axios.get(
-      `http://numbersapi.com/${fact.value}/${selectedOption.value}`,
-    );
-    console.log(response);
+    const response = await axios.get(url);
     data.value = response.data;
     console.log(data.value);
+    showFact.value = true;
+    if (url.includes("random")) {
+      fact.value = "";
+    }
   } catch (error) {
     console.error(error);
   }
 };
 
-const getRandomFact = async () => {
-  try {
-    const response = await axios.get("http://numbersapi.com/random");
-    data.value = response.data;
-    console.log(data.value);
-    fact.value = "";
-  } catch (error) {
-    console.error(error);
+const getFact = () => {
+  if (!fact.value || !selectedOption.value) {
+    isEmpty.value = true;
+    showFact.value = true;
+    data.value = "";
+  } else {
+    const url = `http://numbersapi.com/${fact.value}/${selectedOption.value}`;
+    fetchData(url);
+    isEmpty.value = false;
   }
+};
+
+const getRandomFact = () => {
+  const url = "http://numbersapi.com/random";
+  fetchData(url);
+  // showFact.value = true
 };
 </script>
