@@ -16,11 +16,6 @@
         class="transition-all duration-500 hover:scale-110 hover:text-white"
         >Facts</RouterLink
       >
-      <RouterLink
-        :to="{ name: 'countries' }"
-        class="transition-all duration-500 hover:scale-110 hover:text-white"
-        >Countries</RouterLink
-      >
     </nav>
   </header>
 </template>

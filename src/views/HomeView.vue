@@ -10,6 +10,25 @@ const twoPartSelected = ref(false);
 const numberOfJokes = ref(1);
 const joke = ref([]);
 
+const categories = [
+  { value: "Any", label: "Any" },
+  { value: "programming", label: "Programming" },
+  { value: "Misc", label: "Misc" },
+  { value: "Dark", label: "Dark" },
+  { value: "Pun", label: "Pun" },
+  { value: "Spooky", label: "Spooky" },
+  { value: "Christmas", label: "Christmas" },
+];
+
+const languages = [
+  { value: "", label: "English" },
+  { value: "es", label: "Spanish" },
+  { value: "de", label: "German" },
+  { value: "pt", label: "Portuguese" },
+  { value: "cs", label: "Czech" },
+  { value: "fr", label: "French" },
+];
+
 const apiUrl = computed(() => {
   return `https://v2.jokeapi.dev/joke/${selectedOption.value}?lang=${selectedLanguage.value}&type=${selectedParts.value}&amount=${numberOfJokes.value}`;
 });
@@ -17,12 +36,14 @@ const apiUrl = computed(() => {
 watch(selectedOption, (newValue) => {
   console.log("Selected option:", newValue);
 });
+console.log(joke.value);
 
 const getData = async () => {
   try {
     const response = await axios.get(apiUrl.value);
     const data = response.data;
     joke.value = data;
+    console.log(data);
   } catch (error) {
     console.error("Error fetching data:", error);
   }
@@ -52,95 +73,40 @@ onMounted(() => {
       <div class="rounded-lg border border-black p-12">
         <div class="mb-4 w-full">
           <span>Select Category:</span>
-          <div class="balance mt-2 rounded-lg border-2 border-black p-2">
-            <input
-              type="radio"
-              id="Any"
-              name="category"
-              value="Any"
-              v-model="selectedOption"
-            />
-            <label for="Any" class="mr-2">Any</label>
-
-            <input
-              type="radio"
-              id="programming"
-              name="category"
-              value="programming"
-              v-model="selectedOption"
-              class="mr-[2px]"
-            />
-            <label class="mr-2">Programming</label>
-
-            <input
-              type="radio"
-              id="Misc"
-              name="category"
-              value="Misc"
-              v-model="selectedOption"
-              class="mr-[2px]"
-            />
-            <label class="mr-2">Misc</label>
-
-            <input
-              type="radio"
-              id="Dark"
-              name="category"
-              value="Dark"
-              v-model="selectedOption"
-              class="mr-[2px]"
-            />
-            <label class="mr-2">Dark</label>
-
-            <input
-              type="radio"
-              id="Pun"
-              name="category"
-              value="Pun"
-              v-model="selectedOption"
-              class="mr-[2px]"
-            />
-            <label class="mr-2">Pun</label>
-
-            <input
-              type="radio"
-              id="Spooky"
-              name="category"
-              value="Spooky"
-              v-model="selectedOption"
-              class="mr-[2px]"
-            />
-            <label class="mr-2">Spooky</label>
-
-            <input
-              type="radio"
-              id="Christmas"
-              name="category"
-              value="Christmas"
-              v-model="selectedOption"
-              class="mr-[2px]"
-            />
-            <label>Christmas</label>
+          <div class="mt-2 flex rounded-lg border-2 border-black p-2">
+            <div v-for="category in categories" :key="category.value">
+              <input
+                type="radio"
+                :id="category.value"
+                name="category"
+                :value="category.value"
+                v-model="selectedOption"
+              />
+              <label :for="category.value" class="mr-2">{{
+                category.label
+              }}</label>
+            </div>
           </div>
-        </div>
 
-        <!-- LANGUAGE  -->
-        <div class="mb-4">
-          <span>Select Language:{{ selectedLanguage }}</span>
-          <div class="mt-2 rounded-lg border-2 border-black p-2">
-            <select
-              id="cars"
-              name="cars"
-              class="w-full bg-transparent"
-              v-model="selectedLanguage"
-            >
-              <option value="">English</option>
-              <option value="es">Spanish</option>
-              <option value="de">German</option>
-              <option value="pt">Portuguese</option>
-              <option value="cs">Czech</option>
-              <option value="fr">French</option>
-            </select>
+          <!-- LANGUAGE  -->
+          <div class="mb-4">
+            <span>Select Language:{{ selectedLanguage }}</span>
+            <div class="mt-2 rounded-lg border-2 border-black p-2">
+              <select
+                id="language"
+                name="languages"
+                class="w-full bg-transparent"
+                v-model="selectedLanguage"
+              >
+                <option
+                  v-for="language in languages"
+                  :key="language.value"
+                  :value="language.value"
+                >
+                  {{ language.label }}
+                </option>
+              </select>
+            </div>
           </div>
         </div>
 

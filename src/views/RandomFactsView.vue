@@ -1,5 +1,5 @@
 <template>
-  <main class="bg- flex h-screen items-center justify-center bg-[#3d64e6]">
+  <main class="bg- flex h-screen items-center justify-center">
     <div class="rounded-xl bg-white px-12 py-24">
       <div class="mb-8 flex items-center justify-center gap-4">
         <div>
@@ -33,14 +33,14 @@
           placeholder="Get Fact About The Number"
         />
         <button
-          class="rounded-md bg-[#3d64e6] px-8 py-2 text-white"
+          class="rounded-md bg-yellow-400 px-8 py-2 text-white transition-opacity duration-500 hover:opacity-60"
           @click="getFact"
         >
           Get Fact
         </button>
       </div>
       <button
-        class="mt-4 w-full rounded-md bg-[#3d64e6] px-4 py-2 font-bold text-white"
+        class="mt-4 w-full rounded-md bg-yellow-400 px-4 py-2 font-bold text-white transition-opacity duration-500 hover:opacity-60"
         @click="getRandomFact"
       >
         Get Random Fact

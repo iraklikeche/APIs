@@ -1,5 +1,5 @@
 <template>
-  <main class="flex items-center justify-center bg-[#3d64e6] px-24 py-24">
+  <main class="flex items-center justify-center px-24 py-24">
     <div class="flex w-1/2 flex-col rounded-xl bg-white px-10 py-12">
       <div class="flex items-center justify-center gap-8">
         <input
@@ -9,7 +9,7 @@
         />
         <button
           @click="getCountry"
-          class="mt-4 rounded-full bg-[#3d64e6] px-8 py-2 text-center tracking-wider text-white transition-opacity duration-500 hover:opacity-50"
+          class="rounded-full bg-yellow-400 px-8 py-2 text-center tracking-wider text-white transition-opacity duration-500 hover:opacity-50"
         >
           Search
         </button>
